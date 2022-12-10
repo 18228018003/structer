@@ -1,13 +1,8 @@
 package com.mengtu.array;
 
-import com.mengtu.DynamicArray;
+import com.mengtu.GdmList;
 
-public class DynamicArrayImpl<E> implements DynamicArray<E> {
-
-    /**
-     * 元素的个数
-     */
-    private int size;
+public class GdmArrayList<E>  extends GdmAbstractList<E>{
 
     /**
      * 所有的元素
@@ -15,24 +10,14 @@ public class DynamicArrayImpl<E> implements DynamicArray<E> {
     private E[] elements;
 
     private static final int DEFAULT_CAPACITY = 10;
-    private static final int ELEMENT_NOT_FOUND = -1;
 
-    public DynamicArrayImpl(int capacity){
+
+    public GdmArrayList(int capacity){
         capacity = Math.max(capacity, DEFAULT_CAPACITY);
         elements = (E[]) new Object[capacity];
     }
-    public DynamicArrayImpl(){
+    public GdmArrayList(){
         this(DEFAULT_CAPACITY);
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -41,25 +26,15 @@ public class DynamicArrayImpl<E> implements DynamicArray<E> {
     }
 
     @Override
-    public void add(E element) {
-        elements[size++] = element;
-    }
-
-    @Override
     public E get(int index) {
-        checkIndex(index);
+        rangeCheck(index);
         return elements[index];
     }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index >= size){
-            throw new IndexOutOfBoundsException("Index:"+ index +" ,Size:"+size);
-        }
-    }
 
     @Override
     public E set(int index,E element) {
-        checkIndex(index);
+        rangeCheck(index);
         E old = elements[index];
         elements[index] = element;
         return old;
@@ -67,24 +42,51 @@ public class DynamicArrayImpl<E> implements DynamicArray<E> {
 
     @Override
     public void add(int index, E element) {
-
+        rangeCheckForAdd(index);
+        ensureCapacity(size+1);
+        for (int i = size-1; i >= index; i--) {
+            elements[i+1] = elements[i];
+        }
+        elements[index] = element;
+        size++;
     }
 
+    /**
+     * 确保容量
+     * @param capacity 容量大小
+     */
+    private void ensureCapacity(int capacity){
+        int oldCapacity = elements.length;
+        if (oldCapacity >= capacity) return;
+        int newCapacity = oldCapacity + (oldCapacity >> 1);
+        E newElements[] = (E[]) new Object[newCapacity];
+        if (size >= 0) System.arraycopy(elements, 0, newElements, 0, size);
+        elements = newElements;
+    }
     @Override
     public E remove(int index) {
-        checkIndex(index);
+        rangeCheck(index);
         E old = elements[index];
         for (int i = index + 1; i < size ; i++) {
             elements[i - 1] = elements[i];
         }
-        size--;
+        elements[--size] = null;
         return old;
     }
 
     @Override
     public int indexOf(E element) {
-        for (int i = 0; i < size; i++)
-            if (elements[i].equals(element)) return i;
+        if (element == null){
+            for (int i = 0; i < size; i++){
+                if (elements[i] == null) return i;
+            }
+        }else {
+            for (int i = 0; i < size; i++){
+                if (element.equals(elements[i])) {
+                    return i;
+                }
+            }
+        }
         return ELEMENT_NOT_FOUND;
     }
 

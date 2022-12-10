@@ -1,6 +1,8 @@
 package com.mengtu;
 
-public interface DynamicArray<E> {
+public interface GdmList<E> {
+    int ELEMENT_NOT_FOUND = -1;
+
     int size();//元素的数量
     boolean isEmpty(); //是否为空
     boolean contains(E element); //是否包含某个元素
