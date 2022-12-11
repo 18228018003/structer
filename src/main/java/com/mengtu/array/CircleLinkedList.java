@@ -1,10 +1,11 @@
 package com.mengtu.array;
 
-
-public class GdmLinkedList<E> extends GdmAbstractList<E> {
+/*双向循环链表*/
+public class CircleLinkedList<E> extends GdmAbstractList<E> {
 
     private Node<E> first;
     private Node<E> last;
+    private Node<E> current;
     private static class Node<E>{
         E element;
         Node<E> prev;
@@ -15,7 +16,25 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
             this.next = next;
         }
     }
-
+    public void reset(){
+        current = first;
+    }
+    public E next(){
+        if (current == null)return null;
+        current = current.next;
+        return current.element;
+    }
+    public E remove(){
+        if (current == null) return null;
+        Node<E> next = current.next;
+        E element = remove(current);
+        if (size == 0) {
+            current = null;
+        }else {
+            current = next;
+        }
+        return element;
+    }
     @Override
     public boolean contains(E element) {
         return indexOf(element) != ELEMENT_NOT_FOUND;
@@ -25,6 +44,7 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
     public E get(int index) {
         return node(index).element;
     }
+
 
     @Override
     public E set(int index, E element) {
@@ -39,13 +59,15 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
         rangeCheckForAdd(index);
         if (index == size){
             Node<E> oldLast = last;
-            last = new Node<>(oldLast,element,null);
-            if (oldLast == null){
+            last = new Node<>(oldLast,element,first);
+            if (oldLast == null){//链表添加的第一个元素
                 first = last;
+                first.next = first;
+                first.prev = first;
             }else {
                 oldLast.next = last;
+                first.prev = last;
             }
-//            last.prev.next = last;
         }else {
             /*index位置的元素即为新添加元素的next位置*/
             Node<E> next = node(index);
@@ -53,36 +75,38 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
             Node<E> prev = next.prev;
             /*新添加的节点*/
             Node<E> node = new Node<>(prev,element,next);
-            if (prev == null){
-                first = node;
-            }else {
-                prev.next = node;
-            }
+            prev.next = node;
             next.prev = node;
+            if (index == 0){
+                first = node;
+            }
         }
         size++;
     }
 
+    private E remove(Node<E> node){
+        if (size == 1){
+            first = null;
+            last = null;
+            return node.element;
+        }
+        Node<E> prev = node.prev;
+        Node<E> next = node.next;
+        prev.next = next;
+        next.prev = prev;
+        if (node == first){
+            first = next;
+        }
+        if (node == last){
+            last = prev;
+        }
+        size--;
+        return node.element;
+    }
     @Override
     public E remove(int index) {
         rangeCheck(index);
-        Node<E> node = node(index);
-        Node<E> prev = node.prev;
-        Node<E> next = node.next;
-
-        if (prev == null){
-            first = next;
-        }else {
-            prev.next = next;
-        }
-        if (next == null){
-            last = prev;
-        }else {
-            next.prev = prev;
-        }
-
-        size--;
-        return node.element;
+        return remove(node(index));
     }
 
     @Override

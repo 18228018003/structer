@@ -1,7 +1,5 @@
 package com.mengtu.array;
 
-import com.mengtu.GdmList;
-
 public abstract class GdmAbstractList<E> implements GdmList<E> {
 
     /**

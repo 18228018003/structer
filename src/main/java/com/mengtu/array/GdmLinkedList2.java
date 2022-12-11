@@ -1,21 +1,24 @@
 package com.mengtu.array;
 
-
-public class GdmLinkedList<E> extends GdmAbstractList<E> {
-
+/**
+ * 增加一个虚拟头结点
+ * 变为双向链表
+ * @param <E>
+ */
+public class GdmLinkedList2<E> extends GdmAbstractList<E> {
     private Node<E> first;
-    private Node<E> last;
     private static class Node<E>{
         E element;
-        Node<E> prev;
         Node<E> next;
-        public Node(Node<E> prev,E element,Node<E> next){
-            this.prev = prev;
+        public Node(E element,Node<E> next){
             this.element = element;
             this.next = next;
         }
     }
-
+    public GdmLinkedList2(){
+        /*虚拟头节点*/
+        first = new Node<>(null,null);
+    }
     @Override
     public boolean contains(E element) {
         return indexOf(element) != ELEMENT_NOT_FOUND;
@@ -36,51 +39,22 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
 
     @Override
     public void add(int index, E element) {
+
         rangeCheckForAdd(index);
-        if (index == size){
-            Node<E> oldLast = last;
-            last = new Node<>(oldLast,element,null);
-            if (oldLast == null){
-                first = last;
-            }else {
-                oldLast.next = last;
-            }
-//            last.prev.next = last;
-        }else {
-            /*index位置的元素即为新添加元素的next位置*/
-            Node<E> next = node(index);
-            /*prev就是新添加的上一个元素*/
-            Node<E> prev = next.prev;
-            /*新添加的节点*/
-            Node<E> node = new Node<>(prev,element,next);
-            if (prev == null){
-                first = node;
-            }else {
-                prev.next = node;
-            }
-            next.prev = node;
-        }
+        //找到index位置的前一个元素
+        Node<E> prev = index == 0 ? first : node(index - 1);
+        /*创建一个新的Node 新Node的next为前一个节点的next*/
+        prev.next = new Node<>(element,prev.next);
+
         size++;
     }
 
     @Override
     public E remove(int index) {
         rangeCheck(index);
-        Node<E> node = node(index);
-        Node<E> prev = node.prev;
-        Node<E> next = node.next;
-
-        if (prev == null){
-            first = next;
-        }else {
-            prev.next = next;
-        }
-        if (next == null){
-            last = prev;
-        }else {
-            next.prev = prev;
-        }
-
+        Node<E> prev = index == 0 ? first : node(index - 1);
+        Node<E> node = prev.next;
+        prev.next = node.next;
         size--;
         return node.element;
     }
@@ -116,25 +90,19 @@ public class GdmLinkedList<E> extends GdmAbstractList<E> {
      */
     private Node<E> node(int index){
         rangeCheck(index);
-        if (index < (size >> 1)){
-            Node<E> node = first;
-            for (int i = 0; i < index; i++) {
-                node = node.next;
-            }
-            return node;
-        }else {
-            Node<E> node = last;
-            for (int i = size - 1; i > index ; i--) {
-                node = node.prev;
-            }
-            return node;
+        /**/
+        Node<E> node = first.next;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
         }
+        return node;
+
     }
 
     @Override
     public String toString() {
-        Node<E> node = first;
         StringBuilder sb = new StringBuilder();
+        Node<E> node = first.next;
         sb.append("size=").append(size).append(", [");
         for (int i = 0; i < size; i++) {
             if (i != 0){

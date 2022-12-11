@@ -1,4 +1,4 @@
-package com.mengtu;
+package com.mengtu.array;
 
 public interface GdmList<E> {
     int ELEMENT_NOT_FOUND = -1;

@@ -1,7 +1,5 @@
 package com.mengtu.array;
 
-import com.mengtu.GdmList;
-
 public class GdmArrayList<E>  extends GdmAbstractList<E>{
 
     /**
@@ -71,7 +69,22 @@ public class GdmArrayList<E>  extends GdmAbstractList<E>{
             elements[i - 1] = elements[i];
         }
         elements[--size] = null;
+        trim();
         return old;
+    }
+
+    /**
+     * 数组缩容
+     */
+    private void trim() {
+        int capacity = elements.length;
+        //size大小大于容量的一半 或者容量小于等于默认容量 不进行缩容
+        int newCapacity = (capacity >> 1);
+        if (size >= newCapacity || capacity <= DEFAULT_CAPACITY ) return;
+        //1.剩余容量很多
+        E[] newElements = (E[]) new Object[newCapacity];
+        System.arraycopy(elements,0,newElements,0,size);
+        elements = newElements;
     }
 
     @Override
@@ -92,8 +105,11 @@ public class GdmArrayList<E>  extends GdmAbstractList<E>{
 
     @Override
     public void clear() {
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
         size = 0;
-        elements = null;
+        elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     @Override
