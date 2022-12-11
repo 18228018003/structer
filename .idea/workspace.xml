@@ -5,22 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a69a15e7-346a-407f-ac8d-eb2e7c3e23ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/CircleLinkedList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmLinkedList2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/SingleCircleLinkedList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/queue/CirCleQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/queue/GdmDeque.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/queue/GdmQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/stack/GdmStack.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/leetcode/_141_CycleList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/leetcode/_20_isValid.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/leetcode/_232_QueueImplUseStack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/BinarySearchTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/BinaryTreeInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/BinaryTrees.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/InorderPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/LevelOrderPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/Printer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/tree/printer/Strings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mengtu/GdmList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mengtu/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmAbstractList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmAbstractList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmArrayList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mengtu/array/GdmLinkedList.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +62,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Language Defaults&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -150,7 +143,8 @@
       <updated>1670665638062</updated>
       <workItem from="1670665639135" duration="19996000" />
       <workItem from="1670740305062" duration="10818000" />
-      <workItem from="1670759672848" duration="3666000" />
+      <workItem from="1670759672848" duration="6739000" />
+      <workItem from="1670767780565" duration="4035000" />
     </task>
     <task id="LOCAL-00001" summary="初始化项目：">
       <created>1670668588431</created>
@@ -173,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670691813427</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="实现队列和栈">
+      <created>1670764476182</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1670764476182</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,7 +194,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初始化项目：" />
     <MESSAGE value="反转链表和实现链表和动态数组" />
-    <option name="LAST_COMMIT_MESSAGE" value="反转链表和实现链表和动态数组" />
+    <MESSAGE value="实现队列和栈" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现队列和栈" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
