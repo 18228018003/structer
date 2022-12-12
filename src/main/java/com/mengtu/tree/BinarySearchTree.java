@@ -186,6 +186,48 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         }
         return height;
     }
+
+    /**
+     * 给定一个节点，寻找他的前驱顶点
+     * @param node 指定节点
+     * @return 前驱节点
+     */
+    private Node<E> precursor(Node<E> node){
+        if (node == null) return null;
+        /*前驱结点在左子树中 node.left.right.right*/
+        Node<E> p = node.left;
+        if (p != null){
+            while (p.right != null){
+                p = p.right;
+            }
+            return p;
+        }
+        /*从父节点中寻找*/
+        while (node.parent != null && node == node.parent.left){
+            node = node.parent;
+        }
+        return node.parent;
+    }
+    /**
+     * 给定一个节点，寻找他的后继顶点
+     * @param node 指定节点
+     * @return 后继节点
+     */
+    private Node<E> successor(Node<E> node){
+        //后继节点在右子节点
+        Node<E> s = node.right;
+        if (s != null){
+            //左子节点不为空 一直往左找下去
+            while (s.left != null){
+                s = s.left;
+            }
+            return s;
+        }
+        while (node.parent != null && node == node.parent.right){
+            node = node.parent;
+        }
+        return node.parent;
+    }
     @Override
     public Object root() {
         return root;
