@@ -2,7 +2,7 @@ package com.mengtu;
 
 import com.mengtu.queue.GdmQueue;
 import com.mengtu.stack.GdmStack;
-import com.mengtu.tree.BinarySearchTree;
+import com.mengtu.tree.BST;
 import com.mengtu.tree.printer.BinaryTrees;
 
 
@@ -42,7 +42,7 @@ public class Main {
         Integer data1[] = new Integer[]{
                 7,4,9,2,5,8,10
         };
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        BST<Integer> bst = new BST<>();
         for (Integer datum : data) {
             bst.add(datum);
         }
@@ -67,13 +67,13 @@ public class Main {
         Integer data[] = new Integer[]{
                 7,4,9,2,5,8,10,11,23,51,45,67,131
         };
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        BST<Integer> bst = new BST<>();
         for (Integer datum : data) {
             bst.add(datum);
         }
         BinaryTrees.println(bst);
         System.out.println( " ========================= ");
-        bst.invertTree(bst.getRoot());
+//        bst.invertTree(bst.getRoot());
         System.out.println( " ========================= ");
         BinaryTrees.print(bst);
     }
@@ -82,7 +82,7 @@ public class Main {
         Integer data[] = new Integer[]{
                 7,4,9,2,5,8,10,11,23,51,45,67,131
         };
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        BST<Integer> bst = new BST<>();
         for (Integer datum : data) {
             bst.add(datum);
         }
