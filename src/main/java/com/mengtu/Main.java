@@ -8,7 +8,7 @@ import com.mengtu.tree.printer.BinaryTrees;
 
 public class Main {
     public static void main(String[] args) {
-        testInvertTree();
+        testRemove();
     }
 
     private static void testStack() {
@@ -65,16 +65,35 @@ public class Main {
 
     static void testInvertTree(){
         Integer data[] = new Integer[]{
-                7,4,9,2,5,8,10
+                7,4,9,2,5,8,10,11,23,51,45,67,131
         };
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
         for (Integer datum : data) {
             bst.add(datum);
         }
-        BinaryTrees.print(bst);
+        BinaryTrees.println(bst);
         System.out.println( " ========================= ");
         bst.invertTree(bst.getRoot());
         System.out.println( " ========================= ");
         BinaryTrees.print(bst);
+    }
+
+    static void testRemove() {
+        Integer data[] = new Integer[]{
+                7,4,9,2,5,8,10,11,23,51,45,67,131
+        };
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        for (Integer datum : data) {
+            bst.add(datum);
+        }
+        BinaryTrees.println(bst);
+//        bst.remove(131);
+//        bst.remove(67);
+//        bst.remove(45);
+        bst.remove(51);
+        bst.remove(23);
+        bst.remove(11);
+        bst.remove(10);
+        BinaryTrees.println(bst);
     }
 }

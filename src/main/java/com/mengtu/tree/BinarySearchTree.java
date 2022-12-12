@@ -28,6 +28,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
     }
 
     public void clear(){
+        root = null;
         size = 0;
     }
     /*不支持null元素*/
@@ -80,12 +81,71 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         if (element == null) throw new IllegalArgumentException("element must not be null");
     }
 
+    /**
+     * 删除节点
+     * @param element 元素
+     */
     public void remove(E element){
-
+        remove(node(element));
     }
 
+    /**
+     * 根据元素查找节点
+     * @param element 元素
+     * @return 节点
+     */
+    private Node<E> node(E element) {
+        Node<E> node = root;
+        while (node != null){
+            int cmp = compare(element,node.element);
+            if (cmp == 0) return node;
+            if (cmp > 0) {
+                node = node.right;
+            }else {
+                node = node.left;
+            }
+        }
+        return null;
+    }
+
+    private void remove(Node<E> node){
+        if (node == null) return;
+        size--;
+        /*度为2的节点*/
+        if (node.hasTwoChildren()){
+            /*找到后继节点*/
+            Node<E> successor = successor(node);
+            /*用后继节点的值覆盖度为2节点的值*/
+            node.element = successor.element;
+            //删除后继节点
+            node = successor;
+        }
+        /*删除node节点 (node节点的度必定为0 或者 1)*/
+        Node<E> replacement = node.left != null ? node.left : node.right;
+        //说明代替的子节点是度为1的
+        if (replacement != null){
+            //更改parent
+            replacement.parent = node.parent;
+            //更改parent的left、right的指向
+            if (node.parent == null){//node是度为1的节点 并且是根节点
+                root = replacement;
+            }else if (node == node.parent.left){
+                node.parent.left = replacement;
+            }else{  // node == node.parent.right
+                node.parent.right = replacement;
+            }
+        }else if (node.parent == null){//说明是叶子节点 并且为根节点
+            root = null;
+        }else {//说明是叶子节点 但不是根节点
+            if (node == node.parent.left){
+                node.parent.left = null;
+            }else{
+                node.parent.right = null;
+            }
+        }
+    }
     public boolean contains(E element){
-        return false;
+        return node(element) != null;
     }
 
     /*前序遍历*/
