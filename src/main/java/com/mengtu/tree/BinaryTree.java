@@ -198,7 +198,9 @@ public class BinaryTree<E> implements BinaryTreeInfo {
         }
         return height;
     }
-
+    protected Node<E> createNode(E element,Node<E> parent){
+        return new Node<>(element,parent);
+    }
     /**
      * 判断一棵树是否是 完全二叉树
      * 完全 二叉树 满足几个前提条件：

@@ -62,8 +62,9 @@ public class BST<E> extends BinaryTree<E>{
     public void add(E element){
         elementNullCheck(element);
         if (root == null){
-            root = new Node<>(element,null);
+            root = createNode(element,null);
             size++;
+            afterAdd(root);
             return;
         }
         //添加的不是第一个节点
@@ -83,13 +84,22 @@ public class BST<E> extends BinaryTree<E>{
                 return;
             }
         }
-        Node<E> newNode = new Node<>(element,parent);
+        Node<E> newNode = createNode(element,parent);
         if (cmp > 0){
             parent.right = newNode;
         }else {
             parent.left = newNode;
         }
         size++;
+        afterAdd(newNode);
+    }
+
+    /**
+     * 添加node之后的调整 该树不需要实现自平衡，留一个方法给子类实现自平衡相关
+     * @param node 节点
+     */
+    protected void afterAdd(Node<E> node){
+
     }
     private void remove(Node<E> node){
         if (node == null) return;
@@ -130,7 +140,5 @@ public class BST<E> extends BinaryTree<E>{
     public boolean contains(E element){
         return node(element) != null;
     }
-
-
 
 }
