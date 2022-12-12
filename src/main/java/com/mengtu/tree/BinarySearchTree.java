@@ -1,6 +1,7 @@
 package com.mengtu.tree;
 
 import com.mengtu.tree.printer.BinaryTreeInfo;
+import leetcode._226_ReverseTree;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -156,12 +157,42 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             }
         }
     }
-
+    /*递归方法求树的高度*/
+    public int getTreeHeight(Node<E> node){
+        if (node == null) return 0;
+        return 1 + Math.max(getTreeHeight(node.left),getTreeHeight(node.right));
+    }
+    /*层序遍历求树高度*/
+    public int height(){
+        /*树高度*/
+        int height = 0;
+        /*每层元素的数量*/
+        int levelSize = 1;
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            Node<E> node = queue.poll();
+            levelSize--;
+            if (node.left != null){
+                queue.offer(node.left);
+            }
+            if (node.right != null){
+                queue.offer(node.right);
+            }
+            if (levelSize == 0){
+                height++;
+                levelSize = queue.size();
+            }
+        }
+        return height;
+    }
     @Override
     public Object root() {
         return root;
     }
-
+    public Node<E> getRoot(){
+        return root;
+    }
     @Override
     public Object left(Object node) {
         return ((Node<E>)node).left;
@@ -176,7 +207,49 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
     public Object string(Object node) {
         return ((Node<E>)node).element;
     }
-    private static abstract class Visitor<E>{
+
+    /**
+     * 判断一棵树是否是 完全二叉树
+     * 完全 二叉树 满足几个前提条件：
+     * 1.所有叶子节点都出现在 k 或者 k-1 层，而且从 1 到 k-1 层必须达到最大节点数
+     * 2.第 k 层可以不是满的，但是第 k 层的所有节点必须集中在最左边。
+     * 3.任何一个节点不能只有右子树没有左子树
+     * 4.叶子节点出现在最后一层或者倒数第二层，不能再往上
+     * @return Boolean
+     */
+    public boolean complete(){
+        if (root == null) return true;
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+        //从当前位置开始以后的都必须是叶子节点的标志位
+        boolean leaf = false;
+        while (!queue.isEmpty()){
+            Node<E> node = queue.poll();
+            if (leaf && !node.isLeaf()) return false;
+            if (node.left != null){
+                queue.offer(node.left);
+            }else if (node.right != null){//左子树为空 右子树不为空 直接返回false
+                //node.left == null && node.right != null
+                return false;
+            }
+            if (node.right != null){
+                queue.offer(node.right);
+            }else {//右子树为空 接下来的节点都必须是叶子节点
+                //node.left == null && node.right == null
+                //node.left != null && node.right == null
+                leaf = true;
+            }
+        }
+        return true;
+    }
+    public Node<E> invertTree(Node<E> root){
+        if (root == null) return null;
+        Node<E> temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+        return root;
+    }
+    public static abstract class Visitor<E>{
 
         /*停止标志位*/
         boolean stop;
@@ -185,7 +258,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
          * @param element 元素
          * @return 如果返回true遍历停止
          */
-        abstract boolean visit(E element);
+        protected abstract boolean visit(E element);
     }
     private static class Node<E>{
         E element;
@@ -196,6 +269,13 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         public Node(E element,Node<E> parent){
             this.element = element;
             this.parent = parent;
+        }
+
+        public boolean isLeaf() {
+            return left == null && right == null;
+        }
+        public boolean hasTwoChildren(){
+            return left != null && right != null;
         }
     }
 }
