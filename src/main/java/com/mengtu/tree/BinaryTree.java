@@ -103,17 +103,26 @@ public class BinaryTree<E> implements BinaryTreeInfo {
         Node<E> left;//左子节点
         Node<E> right;//右子节点
         Node<E> parent; //父节点
-
         public Node(E element,Node<E> parent){
+
             this.element = element;
             this.parent = parent;
         }
 
+        /*是否是叶子节点*/
         public boolean isLeaf() {
             return left == null && right == null;
         }
         public boolean hasTwoChildren(){
             return left != null && right != null;
+        }
+
+        public boolean isLeftChild(){
+            return parent != null && this == parent.left;
+        }
+
+        public boolean isRightChild(){
+            return parent != null && this == parent.right;
         }
     }
 

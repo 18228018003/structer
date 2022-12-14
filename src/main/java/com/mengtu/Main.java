@@ -2,13 +2,14 @@ package com.mengtu;
 
 import com.mengtu.queue.GdmQueue;
 import com.mengtu.stack.GdmStack;
+import com.mengtu.tree.AVLTree;
 import com.mengtu.tree.BST;
 import com.mengtu.tree.printer.BinaryTrees;
 
 
 public class Main {
     public static void main(String[] args) {
-        testRemove();
+        testAVLTree();
     }
 
     private static void testStack() {
@@ -95,5 +96,16 @@ public class Main {
         bst.remove(11);
         bst.remove(10);
         BinaryTrees.println(bst);
+    }
+
+    static void testAVLTree(){
+        Integer data[] = new Integer[]{
+                13,14,15,12,11,17,16,8,9,1
+        };
+        AVLTree<Integer> avlTree = new AVLTree<>();
+        for (Integer datum : data) {
+            avlTree.add(datum);
+        }
+        BinaryTrees.println(avlTree);
     }
 }

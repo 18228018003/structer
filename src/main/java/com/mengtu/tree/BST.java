@@ -101,6 +101,13 @@ public class BST<E> extends BinaryTree<E>{
     protected void afterAdd(Node<E> node){
 
     }
+    /**
+     * 删除node之后的调整 该树不需要实现自平衡，留一个方法给子类实现自平衡相关
+     * @param node 节点
+     */
+    protected void afterRemove(Node<E> node){
+
+    }
     private void remove(Node<E> node){
         if (node == null) return;
         size--;
@@ -127,14 +134,17 @@ public class BST<E> extends BinaryTree<E>{
             }else{  // node == node.parent.right
                 node.parent.right = replacement;
             }
+            afterRemove(node);
         }else if (node.parent == null){//说明是叶子节点 并且为根节点
             root = null;
+            afterRemove(node);
         }else {//说明是叶子节点 但不是根节点
             if (node == node.parent.left){
                 node.parent.left = null;
             }else{
                 node.parent.right = null;
             }
+            afterRemove(node);
         }
     }
     public boolean contains(E element){
