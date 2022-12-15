@@ -36,6 +36,20 @@ public class AVLTree<E> extends BST<E>{
         }
     }
 
+    @Override
+    protected void afterRemove(Node<E> node) {
+        while ((node = node.parent) != null){
+            //判断node是否平衡
+            if (isBalanced(node)){
+                //更新高度
+                updateHeight(node);
+            }else {
+                //恢复平衡
+                rebalance(node);
+            }
+        }
+    }
+
     /**
      * 恢复平衡
      * @param node 高度最低的不平衡节点
