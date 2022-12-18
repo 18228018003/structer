@@ -12,7 +12,7 @@ import java.util.Map;
  *      左右子树的高度差小于等于 1。
  *      其每一个子树均为平衡二叉树。
  */
-public class AVLTree<E> extends BST<E>{
+public class AVLTree<E> extends BBST<E>{
     public AVLTree(){
         this(null);
     }
@@ -37,7 +37,14 @@ public class AVLTree<E> extends BST<E>{
     }
 
     @Override
-    protected void afterRemove(Node<E> node) {
+    protected void afterRotate(Node<E> grand, Node<E> parent, Node<E> child) {
+        super.afterRotate(grand,parent,child);
+        updateHeight(parent);
+        updateHeight(grand);
+    }
+
+    @Override
+    protected void afterRemove(Node<E> node,Node<E> replacement) {
         while ((node = node.parent) != null){
             //判断node是否平衡
             if (isBalanced(node)){
@@ -74,60 +81,7 @@ public class AVLTree<E> extends BST<E>{
         }
     }
 
-    /**
-     * 左旋转
-     * @param grand 传入的节点
-     */
-    private void rotateLeft(Node<E> grand){
-        //拿到节点的右节点
-        Node<E> parent = grand.right;
-        Node<E> child = parent.left;
-        //进行旋转操作
-        grand.right = child;
-        parent.left = grand;
-        //让parent成为子树的根节点
-        parent.parent = grand.parent;
-        if (grand.isLeftChild()){
-            grand.parent.left = parent;
-        }else if (grand.isRightChild()){
-            grand.parent.right = parent;
-        }else {//根节点
-            root = parent;
-        }
-        //更新原来子树根节点的parent
-        grand.parent = parent;
-        if (child != null){
-            child.parent = grand;
-        }
-        updateHeight(parent);
-        updateHeight(grand);
-    }
 
-    /**
-     * 旋转
-     * @param grand
-     */
-    private void rotateRight(Node<E> grand){
-        Node<E> parent = grand.left;
-        Node<E> child = parent.right;
-        parent.right = grand;
-        grand.left = child;
-
-        parent.parent = grand.parent;
-        if (grand.isLeftChild()){
-            grand.parent.left = parent;
-        }else if (grand.isRightChild()){
-            grand.parent.right = parent;
-        }else {
-            root = parent;
-        }
-        if (child != null){
-            child.parent = grand;
-        }
-        grand.parent = parent;
-        updateHeight(parent);
-        updateHeight(grand);
-    }
     @Override
     protected Node<E> createNode(E element, Node<E> parent) {
         return new AVLNode<>(element,parent);
@@ -168,7 +122,6 @@ public class AVLTree<E> extends BST<E>{
 
         /**
          * 返回左右子节点中较高的那一个节点
-         * @return
          */
         public Node<E> tallerChild(){
             int leftHeight = left == null ? 0 : ((AVLNode<E>)left).height;
