@@ -4,6 +4,7 @@ import com.mengtu.tree.printer.BinaryTreeInfo;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class BinaryTree<E> implements BinaryTreeInfo {
     protected int size; //元素数量
@@ -30,19 +31,30 @@ public class BinaryTree<E> implements BinaryTreeInfo {
         return root;
     }
     /*前序遍历*/
-    public void preorderTraversal(Node<E> node, BST.Visitor<E> visitor){
+    public void preorderTraversal(Node<E> node, Visitor<E> visitor){
         if (node==null || visitor.stop) return;
         visitor.stop = visitor.visit(node.element);
         preorderTraversal(node.left,visitor);
         preorderTraversal(node.right,visitor);
     }
-    public void inOrder(BST.Visitor<E> visitor){
-        if (visitor == null) return;
-        inorderTraversal(root,visitor);
+    public void inOrder(Visitor<E> visitor){
+        if (visitor == null ) return;
+        Stack<Node<E>> stack = new Stack<>();
+        Node<E> node = root;
+        while (!stack.isEmpty() || node != null){
+            if (node != null){
+                stack.push(node);
+                node = node.left;
+            }else {
+                node = stack.pop();
+                if (visitor.visit(node.element)) break;
+                node = node.right;
+            }
+        }
     }
 
     /*中序遍历*/
-    public void inorderTraversal(Node<E> node, BST.Visitor<E> visitor){
+    public void inorderTraversal(Node<E> node, Visitor<E> visitor){
         if (node == null || visitor.stop) return;
         inorderTraversal(node.left,visitor);
         if (visitor.stop) return;
@@ -50,24 +62,49 @@ public class BinaryTree<E> implements BinaryTreeInfo {
         inorderTraversal(node.right,visitor);
     }
 
-    public void preOrder(BST.Visitor<E> visitor){
-        if (visitor == null) return;
-        preorderTraversal(root,visitor);
+    public void preOrder(Visitor<E> visitor){
+        if (visitor == null || root == null) return;
+        Stack<Node<E>> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            Node<E> node = stack.pop();
+            if (visitor.visit(node.element)) {
+                break;
+            }
+            if (node.right != null){
+                stack.push(node.right);
+            }
+            if (node.left != null){
+                stack.push(node.left);
+            }
+        }
     }
 
-    public void postOrder(BST.Visitor<E> visitor){
-        if (visitor == null) return;
-        postorderTraversal(root,visitor);
+    public void postOrder(Visitor<E> visitor){
+        if (visitor == null || root == null) return;
+        Stack<Node<E>> s1 = new Stack<>();
+        Stack<Node<E>> s2 = new Stack<>();
+        s1.push(root);
+        while (!s1.isEmpty()){
+            Node<E> node = s1.pop();
+            s2.push(node);
+            if (node.left != null){
+                s1.push(node.left);
+            }
+            if (node.right != null){
+                s1.push(node.right);
+            }
+        }
     }
     /*后续遍历*/
-    public void postorderTraversal(Node<E> node, BST.Visitor<E> visitor){
+    public void postorderTraversal(Node<E> node, Visitor<E> visitor){
         if (node == null || visitor.stop) return;
         inorderTraversal(node.left,visitor);
         inorderTraversal(node.right,visitor);
         if (visitor.stop) return;
         visitor.stop = visitor.visit(node.element);
     }
-    public void levelOrder(BST.Visitor<E> visitor){
+    public void levelOrder(Visitor<E> visitor){
         if (root == null || visitor == null) return;
         Queue<Node<E>> queue = new LinkedList<>();
         queue.offer(root);
